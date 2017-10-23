@@ -1,10 +1,22 @@
 include::topics/templates/document-attributes.adoc[]
 
 :install-launcher-osl:
+//var for front-end topics, if below is defined in topic, its used in docs, if not its used in the front end
+:docs-topic:
 
 = {minishift-installation-guide-name}
 
-This guide walks you through the process of installing the {launcher} application to run on a local cloud as provisioned by a {OpenShiftLocal}. This includes link:https://www.openshift.org/minishift/[{Minishift}], an all-in-one VM which includes a community version of OpenShift Origin and link:https://developers.redhat.com/products/cdk/overview/[{CDK}].
+This guide walks you through the process of installing the {launcher} application to run on a local cloud as provisioned by a {OpenShiftLocal}. This includes link:https://www.openshift.org/minishift/[{Minishift}], an all-in-one VM that includes a community version of OpenShift Origin, or link:https://developers.redhat.com/products/cdk/overview/[{CDK}], a VM that includes OpenShift Container Platform.
+
+.The {launcher} Application
+The {launcher} application runs on OpenShift and provides a hassle-free way of creating functional example applications called missions. Using the {launcher} application walks you through:
+
+* Choosing the mission you want to generate
+* Choosing the runtime you want to use
+* Choosing how you want to build and execute the mission
+
+The {launcher} application uses your choices to generate a custom project, called a booster, and either launches it directly to the same OpenShift instance, or provides a downloadable ZIP version of the project.
+
 
 include::topics/minishift-install-prereq.adoc[leveloffset=+1]
 
@@ -12,9 +24,21 @@ include::topics/minishift-install-start-configure-minishift.adoc[leveloffset=+1]
 
 include::topics/minishift-install-create-gh-personal-access-token.adoc[leveloffset=+1]
 
-== Create the {launcher} Application
+[[create-launcher-app]]
+== Creating {launcher} Application
+
+This chapter describes multiple ways of creating the {launcher} application.
 
 include::topics/minishift-install-create-launchpad-app-script.adoc[leveloffset=+2]
 
 include::topics/minishift-install-create-launchpad-app.adoc[leveloffset=+2]
+
+include::topics/minishift-install-next-steps.adoc[leveloffset=+1]
+
+// temporary location for Nexus install
+[appendix]
+include::topics/minishift-install-nexus-setup.adoc[leveloffset=+1]
+
+[appendix]
+include::topics/appendix-glossary.adoc[leveloffset=+1]
 

@@ -1,23 +1,24 @@
 [[common-crud-database-interaction]]
-= Interacting with the CRUD API
+= Interacting with the Application API
 
 .  Once the application is running, you can access it using the _application URL_. To obtain the URL, execute the following command:
 +
 [source,bash,options="nowrap",subs="attributes+"]
 --
-oc get route {app-name} -o jsonpath={$.spec.host}
+oc get route {app-name}
 --
 +
 [source,bash,option="nowrap",subs="attributes+"]
 ----
-{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com
+NAME                 HOST/PORT                                         PATH      SERVICES             PORT      TERMINATION
+{app-name}           {app-name}-{project-name}.{osl-route-hostname}              {app-name}           8080
 ----
 
 . To access the web interface of the database application, navigate to the _application URL_ in your browser:
 +
 [source,bash,subs="attributes+"]
 --
-http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com
+http://{app-name}-{project-name}.{osl-route-hostname}
 --
 +
 Alternatively, you can make requests directly on the `api/fruits/*` endpoint using `curl`:
@@ -25,7 +26,7 @@ Alternatively, you can make requests directly on the `api/fruits/*` endpoint usi
 .List all entries in the database:
 [source,bash,subs="attributes+"]
 --
-curl http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/api/fruits
+curl http://{app-name}-{project-name}.{osl-route-hostname}/api/fruits
 --
 +
 ----
@@ -44,7 +45,7 @@ curl http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/a
 .Retrieve an entry with a specific ID
 [source,bash,options="nowrap",subs="attributes+"]
 --
-curl http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/api/fruits/3
+curl http://{app-name}-{project-name}.{osl-route-hostname}/api/fruits/3
 --
 +
 ----
@@ -58,7 +59,7 @@ curl http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/a
 .Create a new entry:
 [source,bash,options="nowrap",subs="attributes+"]
 --
-curl -H "Content-Type: application/json" -X POST -d '{"name":"apple"}'  http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/api/fruits
+curl -H "Content-Type: application/json" -X POST -d '{"name":"apple"}'  http://{app-name}-{project-name}.{osl-route-hostname}/api/fruits
 --
 +
 ----
@@ -71,7 +72,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"name":"apple"}'  http://{
 .Update an Entry
 [source,bash,options="nowrap",subs="attributes+"]
 --
-curl -H "Content-Type: application/json" -X PUT -d '{"name":"pineapple"}'  http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/api/fruits/1
+curl -H "Content-Type: application/json" -X PUT -d '{"name":"pineapple"}'  http://{app-name}-{project-name}.{osl-route-hostname}/api/fruits/1
 --
 +
 ----
@@ -84,7 +85,7 @@ curl -H "Content-Type: application/json" -X PUT -d '{"name":"pineapple"}'  http:
 .Delete an Entry:
 [source,bash,options="nowrap",subs="attributes+"]
 --
-curl -X DELETE http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com/api/fruits/1
+curl -X DELETE http://{app-name}-{project-name}.{osl-route-hostname}/api/fruits/1
 --
 
 If you receive an HTTP Error code `503` as a response after executing these commands, it means that the application is not ready yet.

@@ -1,4 +1,4 @@
-= Update Manually
+= Updating Manually
 
 This approach allows you to deploy updates directly from a local version of the GitHub repository created by {launcher}. 
 
@@ -11,7 +11,7 @@ To update your mission manually:
 $ git clone git@github.com:USERNAME/PROJECT-NAME.git
 ----
 
-. Open your project in your desired IDE or editor, such as xref:use_jbds[JBDS].
+. Open your project in your desired IDE or editor, such as xref:use_devstudio[Developer Studio].
 
 . Perform any updates you want to the the project. For example, if you were using the {VertX} HTTP booster, you could update the `src/main/resources/webroot/index.html` to have a different title in the `<h1>` element.
 +
@@ -39,7 +39,7 @@ $ oc login {link-osl-auth} --token=$MYTOKEN
 $ oc project {project-name}
 ----
 +
-NOTE: You can find your token in your {OpenShiftLocal} Web console. For example, if your {link-osl-auth} is `https://192.168.99.100:8443`, your token would be located at `https://192.168.99.100:8443/console/command-line`. 
+NOTE: You can find your token in your {OpenShiftLocal} Web console. For example, if your {link-osl-auth} is `https://{osl-login-url}`, your token would be located at `https://{osl-login-url}/console/command-line`. 
 
 . Use maven to start the deployment to your {OpenShiftLocal}.
 +

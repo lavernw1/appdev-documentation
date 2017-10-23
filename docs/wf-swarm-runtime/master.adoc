@@ -4,23 +4,36 @@ include::topics/templates/document-attributes.adoc[]
 :toclevels: 2
 
 = {wf-swarm-runtime-guide-name}
+:runtime: {WildFlySwarm}
+//var for front-end topics, if below is defined in topic, its used in docs, if not its used in the front end
+:docs-topic:
 
 This guide covers concepts as well as practical details needed by developers to use the {WildFlySwarm} runtime.
 
-== Runtime Details
-//http://wildfly-swarm.io
+include::topics/wf-swarm-runtime-overview.adoc[leveloffset=+1]
+
+include::topics/runtime-info-product-version.adoc[leveloffset=+1]
+include::topics/runtime-info-community-version.adoc[leveloffset=+1]
+
 
 include::topics/dev-guide-mission-intro.adoc[leveloffset=+1]
 
 [[mission-http-api-wf-swarm]]
 === {mission-http-api-wf-swarm-guide-name}
 :http-api-wf-swarm:
+:context: rest-api
 
 include::topics/rest-level-0-mission-intro.adoc[leveloffset=+3]
 
+include::topics/note-preview-booster-source.adoc[leveloffset=+3]
+
 include::topics/rest-level-0-mission-design-tradeoffs.adoc[leveloffset=+3]
 
-include::topics/rest-level-0-mission-deploy-booster.adoc[leveloffset=+3]
+include::topics/assembly_building-and-deploying-the-booster-to-openshiftlocal.adoc[leveloffset=+3]
+
+include::topics/assembly_building-and-deploying-the-booster-to-openshiftonline.adoc[leveloffset=+3]
+
+include::topics/assembly_building-and-deploying-the-booster-to-openshiftcontainerplatform.adoc[leveloffset=+3]
 
 include::topics/rest-level-0-mission-basic-interaction-wf-swarm.adoc[leveloffset=+3]
 
@@ -32,6 +45,8 @@ include::topics/rest-level-0-mission-resources.adoc[leveloffset=+3]
 :configmap-wf-swarm:
 
 include::topics/configmap-mission-intro.adoc[leveloffset=+3]
+
+include::topics/note-preview-booster-source.adoc[leveloffset=+3]
 
 include::topics/configmap-mission-design-tradeoffs.adoc[leveloffset=+3]
 
@@ -47,7 +62,11 @@ include::topics/configmap-mission-resources.adoc[leveloffset=+3]
 :crud-wf-swarm-mission:
 //{crud-wf-swarm-rest-booster-guide-name}
 
+include::topics/note-booster-unvailable-oso.adoc[leveloffset=+3]
+
 include::topics/crud-mission-intro.adoc[leveloffset=+3]
+
+include::topics/note-preview-booster-source.adoc[leveloffset=+3]
 
 // design tradeoffs
 include::topics/crud-mission-design-tradeoffs.adoc[leveloffset=+3]
@@ -71,34 +90,72 @@ include::topics/crud-mission-resources.adoc[leveloffset=+3]
 
 include::topics/health-check-mission-intro.adoc[leveloffset=+3]
 
+include::topics/note-preview-booster-source.adoc[leveloffset=+3]
+
 include::topics/health-check-mission-deploy-booster.adoc[leveloffset=+3]
 
 include::topics/health-check-mission-basic-interaction-wf-swarm.adoc[leveloffset=+3]
 
 include::topics/health-check-mission-resources.adoc[leveloffset=+3]
 
-////
-[[mission-secured-wf-swarm]]
-=== {mission-secured-wf-swarm-guide-name}
-:secured-wf-swarm-mission:
-:runtime-name: {WildFlySwarm}
+[[mission-circuit-breaker-wf-swarm]]
+=== {mission-circuit-breaker-wf-swarm-guide-name}
+:circuit-breaker-wf-swarm:
+
+include::topics/note-booster-unvailable-oso.adoc[leveloffset=+3]
+
+// circuit breaker intro
+include::topics/circuit-breaker-mission-intro.adoc[leveloffset=+3]
+
+include::topics/note-preview-booster-source.adoc[leveloffset=+3]
+
+// CB design tradeoffs
+include::topics/circuit-breaker-mission-design-tradeoffs.adoc[leveloffset=+3]
+
+// deploy CB boster
+include::topics/circuit-breaker-mission-deploy-booster.adoc[leveloffset=+3]
+
+// CB basic interaction
+include::topics/circuit-breaker-mission-basic-interaction-wf-swarm.adoc[leveloffset=+3]
+//TODO
+
+//Hystrix Dashboard
+include::topics/circuit-breaker-mission-access-hystrix-dashboard-wf-swarm.adoc[leveloffset=+3]
+
+// CB resources
+include::topics/circuit-breaker-mission-resources.adoc[leveloffset=+3]
+
+
+
+
+//[[mission-secured-wf-swarm]]
+//=== {mission-secured-wf-swarm-guide-name}
+//:secured-wf-swarm-mission:
+//:runtime-name: {WildFlySwarm}
 // This is used by the secured-mission-common-interaction.adoc to include the runtime specific information
-:runtime-tag: wf
+//:runtime-tag: wf
 
+//include::topics/note-booster-unvailable-oso.adoc[leveloffset=+3]
 
-include::topics/secured-mission-intro.adoc[leveloffset=+3]
+//include::topics/secured-mission-intro-paragraph.adoc[leveloffset=+3]
+
+//include::topics/note-preview-booster-source.adoc[leveloffset=+3]
+
+//include::topics/secured-booster-minishift.adoc[leveloffset=+3]
+
+//include::topics/secured-mission-intro.adoc[leveloffset=+3]
 
 //this needs to be a level lower due to secured-mission-intro.adoc
-include::topics/secured-mission-wf-swarm-keycloak-json.adoc[leveloffset=+4]
-
-include::topics/secured-mission-deploy-booster.adoc[leveloffset=+3]
-
-include::topics/secured-mission-common-interaction.adoc[leveloffset=+3]
-////
+//include::topics/secured-mission-wf-swarm-keycloak-json.adoc[leveloffset=+4]
 
 
+//include::topics/secured-mission-deploy-booster.adoc[leveloffset=+3]
 
-== Creating an Application from Scratch
+//include::topics/secured-mission-common-interaction.adoc[leveloffset=+3]
+
+//include::topics/secured-mission-resources.adoc[leveloffset=+3]
+
+//== Creating an Application from Scratch
 //todo
 //Building blocks
 //Minimum Viable App
@@ -106,12 +163,16 @@ include::topics/secured-mission-common-interaction.adoc[leveloffset=+3]
 //Building your app
 
 [appendix]
-== S2I Process
-include::topics/appendix-s2i-build-process.adoc[leveloffset=+2]
+include::topics/appendix-s2i-build-process.adoc[leveloffset=+1]
 
 [appendix]
-== Breakdown of POM Components
-//https://github.com/openshiftio/appdev-documentation/issues/240
+include::topics/http-api-wf-swarm-pom.adoc[leveloffset=+1]
 
 [appendix]
-== Additional Resources
+include::topics/wf-swarm-dev-guide-additional-resources.adoc[leveloffset=+1]
+
+[appendix]
+include::topics/appendix-proficiency-levels.adoc[leveloffset=+1]
+
+[appendix]
+include::topics/appendix-glossary.adoc[leveloffset=+1]

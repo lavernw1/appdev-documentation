@@ -1,4 +1,10 @@
-= Using a Nexus Repository Server With the {launcher} Application on your {OpenShiftLocal}
+// name variable defined locally, because it is only used in this topic
+:nexus-project-name: NEXUS_PROJECT_NAME
+// e.g. https://github.com/path/to/source.git
+:scm-repo-url: SCM_REPOSITORY_URL
+
+
+= Using a Nexus Repository Server With the {launcher} Application on a {OpenShiftLocal}
 
 While developing your cloud-native applications with Java and Maven you may be required to build them repeatedly.
 You can deploy a Nexus Repository server alongside the {launcher} application on your {OpenShiftLocal} and use it to fetch artifacts from the Maven Central Repository and cache them locally.
@@ -27,14 +33,15 @@ This helps you speed up your builds and rolling updates and alleviates network l
 --
 minishift delete # Delete the previous instance of {OpenShiftLocal}
 minishift config set memory 4096
-minishift config set openshift-version v3.6.0-alpha.1
+minishift config set openshift-version v3.6.0
 minishift start
 --
 +
 [WARNING]
 --
-The procedure described below works with {Minishift} 1.0.0-rc2 It has not been tested with the CDK.
-You also need to use version 3.6.0-alpha.1 or later of the `oc` CLI tool.
+The procedure described below works with {Minishift} version `1.7.0`.
+It has not been tested for use with CDK.
+You must use `oc` version `3.6.0` or later.
 --
 
 * Deploy the {launcher} application to your {OpenShiftLocal}.
@@ -47,7 +54,7 @@ You also need to use version 3.6.0-alpha.1 or later of the `oc` CLI tool.
 +
 [source,bash,subs="attributes+"]
 --
-oc login https://192.168.42.10:8443 -u developer -p developer
+oc login https://{osl-login-url} -u developer -p developer
 --
 +
 . You can reuse the Docker daemon instance used by {OpenShiftLocal} to download the latest versions of the Nexus Docker container image.
@@ -66,7 +73,7 @@ docker pull sonatype/nexus
 +
 [source,bash,subs="attributes+"]
 --
-oc new-project NEXUS_PROJECT_NAME
+oc new-project {nexus-project-name}
 --
 +
 . Deploy the Nexus container image.
@@ -83,88 +90,49 @@ oc new-app sonatype/nexus
 oc expose svc/nexus
 --
 +
-. Attach a 1 GiB persistent storage volume to the Nexus application.
+. Attach a persistent volume claim with a minimum size of 10 GiB to the pod running your Nexus application.
 +
 // NOTE: seems that minishift (with oc v 3.6.0alpha1) is fine with USING '1G'  for volume size, while openshift Online requires the syntax '1Gi'.
 +
 [source,bash,subs="attributes+"]
 --
-oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '1Gi' --overwrite
---
-+
-. Find the external address of the Nexus instance:
-+
-[source,bash,subs="attributes+"]
---
-oc get routes
---
-+
-----
-NAME      HOST/PORT                              PATH      SERVICES   PORT       TERMINATION
-nexus     nexus-{NEXUS_PROJECT_NAME}.192.168.42.106.nip.io             nexus      8080:8080
-----
-[NOTE]
---
-Nexus comes pre-configured for the Central Repository, but you may need others for your application. For many Red Hat images, it is recommended to add the jboss-ga repository at Maven repository.
+oc volumes dc/nexus --add --name 'nexus-volume-1' --type 'pvc' --mount-path '/sonatype-work/' --claim-name 'nexus-pv' --claim-size '10Gi' --overwrite
 --
 +
 .  Navigate to the project containing your Booster application.
 +
 [source,bash,subs="attributes+"]
 --
-oc project BOOSTER_PROJECT_NAME
+oc project {project-name}
 --
 +
-. Assign the `admin` role to your Jenkins instance and the `edit` permissions to your OpenShift account.
-You might want to skip this step if you have already assigned these permissions to your account.
-+
-[source,bash,subs="attributes+"]
---
-oc policy add-role-to-user edit system:serviceaccount:BOOSTER_PROJECT_NAME:default
-oc policy add-role-to-user admin system:serviceaccount:BOOSTER_PROJECT_NAME:jenkins
---
-+
-. Obtain the Jenkins server URL and use it to access the Jenkins instance from your browser.
-+
-[source,bash,subs="attributes+"]
---
-oc get routes jenkins
---
-+
-----
-NAME      HOST/PORT                                         PATH      SERVICES   PORT      TERMINATION
-jenkins   jenkins-{app-name}.192.168.42.106.nip.io             jenkins    <all>     edge/Redirect
-----
-+
-. Navigate to `+++jenkins-{app-name}.192.168.42.106.nip.io/configure+++`, and log in using your OpenShift credentials to access the Jenkins configuration page.
-+
-. In the section titled _Kubernetes Pod Template_,  click on  on _Add Evironmental Variable_ and choose the _Global Environmental Variable_ option from the drop-down menu.
-+
-. Define a new environment variable with the following properties:
-* Name: `MAVEN_MIRROR_URL`
-* Value: `nexus-{NEXUS_PROJECT_NAME}.192.168.42.106.nip.io/nexus/content/groups/public/`
+. Define and start a new build. Pass in a parameter to set the value of the `MAVEN_MIRROR_URL` to match the service URL of your Nexus application:
 +
 [NOTE]
 --
-The actual value of the `MAVEN_MIRROR_URL` environmental variable corresponds to the service route of the pod running the Nexus server instance on your {OpenShiftLocal}.
-
-To obtain this route, navigate to the project that contains your Nexus instance and execute the command `oc get routes nexus`.
+Ensure that the YAML template of the builder image you are using for your application has the `MAVEN_MIRROR_URL` environmental variable defined.
+If it does not, see the Nexus documentation for instructions on link:https://help.sonatype.com/display/NXRM2/Maven+and+Other+Build+Tools[configuring your build manually^] before proceeding.
 --
-+
-. Click _Apply_ to confirm the configuration changes.
-+
-. Redeploy the Jenkins server instance with the latest configuration changes.
 +
 [source,bash,subs="attributes+"]
 --
-oc rollout latest dc/jenkins
+$ oc new-build {app-name}:latest~{scm-repo-url} \
+-e MAVEN_MIRROR_URL='http://nexus.{nexus-project-name}:8081/nexus/content/groups/public'
 --
 +
-[WARNING]
+[NOTE]
 --
-KNOWN ISSUE: Redeploying your instance of Jenkins server causes other ongoing builds to hang.
+Nexus comes pre-configured for the Maven Central Repository, but you may need other repositories for your application. To access images provided by Red Hat, add the link:https://maven.repository.redhat.com/[Red Hat JBoss Middleware Early Access Maven Repository] to your Nexus instance.
 --
 +
-.  Navigate to the project that contains your Booster and use the Web console to go to _Builds_ > _Pipelines_ and click _Start Pipeline_ to rebuild your Booster application.
+. To ensure that your new build is using Nexus to retrieve artifacts, you can:
+
+* Navigate to `http://nexus-{nexus-project-name}.{osl-route-hostname}/nexus/content/groups/public` to view the list of artifacts stored in your local repository.
+* Check the log output of the build:
 +
-Your Jenkins instance is now configured to use the Nexus server as a proxy for retrieving artifacts form the Maven Central Repository when a pipeline build is triggered.
+[source,bash,subs="attributes+"]
+--
+$ oc logs build/{app-name}-1 --follow
+--
++
+If your build uses Nexus to retrieve artifacts, the build log output should reference the path `http://nexus.{nexus-project-name}:8081/`.

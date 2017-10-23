@@ -1,6 +1,24 @@
-= Manually
+// This is a parameterized module. Parameters used:
+//
+//   parameter-custom-catalog: A custom catalog is used instead of the default one
+//
+// Rationale: This module is useful both when setting up minishift as is and when testing a local
+// booster catalog.
 
-. Click _New Project_ to create a new OpenShift project to house the {launcher} application. 
+[[launcher-manual-install]]
+ifndef::parameter-custom-catalog[= Creating {launcher} Application Manually]
+ifdef::parameter-custom-catalog[= Creating {launcher} Application]
+
+Create a local customized instance of the {launcher} application, which allows you to test the functionality or make modifications to the application using a web interface.
+
+[discrete]
+== Procedure
+
+.Creating {launcher} Application
+. Open your local OpenShift web console and log in.
++
+NOTE: The IP address and credentials to log in are in the terminal window where you executed `minishift start`.
+. Click _New Project_ to create a new OpenShift project to house the {launcher} application.
 +
 image::minishift_newproject.png[New Project Button]
 
@@ -14,7 +32,7 @@ image::minishift_projectconfig.png[New Project Config]
 +
 image::minishift_yamljson.png[Import YAML/JSON]
 
-. Paste the contents from link:{link-launcher-yaml}[here] into the text box provided. 
+. Copy the contents of link:{link-launcher-yaml}[the current {launcher} template from the GitHub repository^] and paste it into the text box provided.
 +
 NOTE: We are working on removing this step entirely, but for now it is required. The full details and a current status are available link:https://github.com/openshiftio/launchpad-templates/issues/2[on GitHub].
 
@@ -22,29 +40,28 @@ NOTE: We are working on removing this step entirely, but for now it is required.
 +
 image::minishift_processtemplate.png[Process Template]
 
-. Fill out the following fields. 
+. Fill out the following fields.
 ** _Your GitHub username_.
 ** _Your GitHub Mission Control access token_ is your personal access token for GitHub.
-** The _Target OpenShift Console URL_ is the OpenShift Console URL from your {OpenShiftLocal}. This should be the same base URL you are currently using to complete the form, for example `https://192.168.42.152:8443`.
-** OpenShift username and password from your {OpenShiftLocal}, for example `developer` for the username and password. 
-** _KeyCloak URL_ and _KeyCloak Realm_ should be cleared out
+** The _Target OpenShift Console URL_ is the OpenShift Console URL from your {OpenShiftLocal}. This should be the same base URL you are currently using to complete the form, for example `+++https://192.168.42.152:8443+++`.
+** OpenShift username and password from your {OpenShiftLocal}, for example `developer` for the username and password.
+** _KeyCloak URL_ and _KeyCloak Realm_ **MUST** be cleared out.
 +
 WARNING: You must clear these fields out for the {launcher} application on your {OpenShiftLocal} to be configured correctly.
 
-** _Catalog Git Repository_ and _Catalog Git Reference_ should be generally left as-is, unless you are developing against a specific fork you would like to use.
-** _Catalog Index Period_ may be left to `0` unless you would like the catalog to index at some interval in minutes.
-** _{launcher} Frontend Host_ must be updated to replace `$PROJECTNAME` with the name of your project. You also need to update `$HOSTNAMEORIP` in the string to the IP address of your OpenShift Console URL. This example uses `https://192.168.42.152:8443` and `{launcher}`.
-+
-WARNING: Before proceeding to the next steps, confirm all the fields are correct.
+ifndef::parameter-custom-catalog[** Do not modify _Catalog Git Repository_ and _Catalog Git Reference_ unless you are developing against a specific catalog repository.]
+ifdef::parameter-custom-catalog[** Set _Catalog Git Repository_ to the repository with the catalog that you are testing. Set _Catalog Git Reference_ to the branch in that repository you are testing.]
+
+. Before proceeding to the next steps, confirm all the fields are correct. Also confirm that _KeyCloak URL_ and _KeyCloak Realm_ **have been cleared out**.
 
 . Click `Create` to complete the setup. You will see a screen confirming that the application has been created. Click _Continue to overview_.
 
-. On the overview page, wait and confirm that the three services for the {launcher} application are starting up.
+. On the overview page, wait and confirm that the four services for the {launcher} application are starting up.
 +
 image::minishift_launchpad_booting.png[{launcher} booting]
 +
-The grey circles reference that the docker images for these services are being pulled down from the network. This is a one time step that may take some time. Eventually the circles will turn a light blue to note that they are starting, then a deeper blue to indicate when they are running. 
+The grey circles reference that the docker images for these services are being pulled down from the network. This is a one time step that may take some time. Eventually the circles will turn a light blue to note that they are starting, then a deeper blue to indicate when they are running.
 
-. When all services are running, you are ready to use the {launcher} application.  Click the link at the top of all services, which should end in `nip.io`, and a new browser tab will open with the {launcher} application.
+. When all services are running, you are ready to use the {launcher} application. Click the link at the top of all services--which typically ends in the `nip.io` suffix--to open the {launcher} application in a new browser tab.
 
-You are now running on your local cloud the same service we will be hosting over at `launch.openshift.io`. See the link:{link-getting-started-guide}#boosters[{getting-started-guide-name}] for more details on using {launcher} to launch mission booster applications.
+You are now running on your local cloud the same service we will be hosting over at `{launcher}`.

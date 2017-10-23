@@ -1,10 +1,10 @@
 [[launcher-launch-booster]]
-= Launch Your Booster
+= Launching the Booster
 
 To launch your booster from the launch screen, you have the following options.
 
 [[launcher-launch-booster-cd]]
-== Launch Using Continuous Delivery
+== Launching Using Continuous Delivery
 
 To launch using continuous delivery, click the _Launch on OpenShift_ button.
 
@@ -35,8 +35,8 @@ Once your booster is deployed, you can then interact with its application or app
 NOTE: Each mission guide covers deploying as well as interacting with the booster. If you have already deployed your booster using the steps above, skip the _deployment section_ in the mission guide which covers the process for xref:launcher-launch-booster-manual[launching manually].
 
 [[launcher-launch-booster-manual]]
-== Launch Manually
+== Launching Manually
 
 To launch manually, click on _Download as Zip_.
 
-This will download a zip archive containing your booster project that you have to manually build and deploy. Each mission's guide provides complete instructions for building and deploying the booster project. For example, if you deployed the {VertX} {name-mission-http-api} mission, use the link:{link-mission-http-api-vertx}#build_and_deploy_booster[Build and Deploy Your Booster] section in {mission-http-api-vertx-guide-name}. You can find more details on how to interact with a mission in the _interaction section_ of each mission's guide. You can find a full list of mission guides in xref:available-missions[].
+This will download a zip archive containing your booster project that you have to manually build and deploy. Each mission's guide provides complete instructions for building and deploying the booster project. For example, if you deployed the {VertX} {name-mission-http-api} mission, use the link:{link-mission-http-api-vertx}#rest_build_and_deploy_booster[Build and Deploy Your Booster] section in {mission-http-api-vertx-guide-name}. You can find more details on how to interact with a mission in the _interaction section_ of each mission's guide. You can find a full list of mission guides in xref:available-missions[].
