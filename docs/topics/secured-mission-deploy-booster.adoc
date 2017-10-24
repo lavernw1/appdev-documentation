@@ -1,24 +1,39 @@
+= Building and Deploying the Booster
 
+include::booster-deploy-openshift-online.adoc[leveloffset=+1]
 
-= Build and Deploy Your Booster
+== Deploying the Booster to a {OpenShiftLocal}
 
-== Deploy RH SSO and Booster to your {OpenShiftOnline}
+=== Deploying the Secured Booster using the {launcher} Application
 
-NOTE: There is not enough quota available to run this booster in {OpenShiftOnline}.
+. Navigate to your {launcher} application running on your {OpenShiftLocal} and use it to create and launch your booster.
 
-
-include::secured-mission-deploy-rhsso.adoc[leveloffset=+1]
-
-== Deploy Booster to your {OpenShiftLocal}
-
-Package and deploy your {runtime-name} Booster:
-
+. Clone your project from GitHub.
++
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ cd app
-$ mvn fabric8:deploy -DSSO_AUTH_SERVER_URL=<SSO_AUTH_SERVER_URL from above...> -Popenshift -DskipTests=true
+$ git clone git@github.com:USERNAME/PROJECT-NAME.git
 ----
 
-IMPORTANT: Make sure you pass in the SSO_AUTH_SERVER_URL you obtained during the <<SSO_AUTH_SERVER_URL>> step.
+. Build your booster's project.
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ cd PROJECT-NAME/sso
+$ mvn install
+$ cd ..
+----
 
-This process will generate the uber JAR file as well as the OpenShift resources and deploy them to the current project on your {OpenShiftLocal} server. 
+. Login with `oc` to your {OpenShiftLocal}.
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ oc login 
+$ oc project PROJECT-NAME
+----
+
+
+include::mission-secured-deploy-rhsso-zip.adoc[leveloffset=+2]
+
+include::booster-deploy-ocp.adoc[leveloffset=+1]
+

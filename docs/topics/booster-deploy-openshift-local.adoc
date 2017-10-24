@@ -1,6 +1,6 @@
-= Deploy your Booster to a {OpenShiftLocal}
+= Deploying the Booster to a {OpenShiftLocal}
 
-. Before you can use a {OpenShiftLocal}, you need to have it installed, configured, and running. You can find more details in link:{link-openshift-local-guide}[{openshift-local-guide-name}].
+. Before you can use a {OpenShiftLocal}, you need to have it installed, configured, and running. You can find more details in link:{link-launcher-openshift-local-install-guide}#installing-a-openshiftlocal[{openshift-local-guide-name}].
 
 . Once you have a {OpenShiftLocal} running, check the console output for the URL you can use to access it.
 +
@@ -12,7 +12,7 @@
 -- Server Information ...
    OpenShift server started.
    The server is accessible via web console at:
-       https://192.168.99.100:8443
+       https://192.168.42.152:8443
 
    You are logged in as:
        User:     developer
@@ -22,12 +22,7 @@
        oc login -u system:admin
 ----
 
-== Deploy Using {launcher}
+== Deploying Using {launcher}
 
 Once you have the {launcher} application link:{link-launcher-openshift-local-install-guide}[installed and configured],
-navigate to it in {OpenShiftLocal} and use it to create and launch your booster.
-
-[[deploy-booster-osl-cli]]
-== Deploy Using the `oc` CLI Client
-
-You can deploy your booster to {OpenShiftLocal} by following the same process as deploying a booster to {OpenShiftOnline}, but instead of using a {OpenShiftOnline} URL, use your {OpenShiftLocal} URL to access the Web console and with the `oc` CLI client. 
+navigate to it in your {OpenShiftLocal} and use it to create and launch your booster.

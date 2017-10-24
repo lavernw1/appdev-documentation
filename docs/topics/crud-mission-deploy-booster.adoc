@@ -1,21 +1,18 @@
 [[crud-build_and_deploy_booster]]
-= Build and Deploy Your Booster
+= Building and Deploying the Booster
 
 include::booster-deploy-openshift-online.adoc[leveloffset=+1]
 
+include::booster-deploy-openshift-local.adoc[leveloffset=+1]
+
 [[crud-deploy-booster-osl-cli]]
-=== Deploy Using the `oc` CLI Client
+=== Deploying Using the `oc` CLI Client
 
-. Get your authentication token for using the `oc` CLI client with your {OpenShiftOnline} account. You can find this in the _Command Line Tools_ section your {OpenShiftOnline} Web console. 
+include::oc-client-deploy-booster-download-note.adoc[leveloffset=+3]
 
-. Authenticate your `oc` CLI client with your {OpenShiftOnline} account by using your authentication token.
-+
-[source,bash,options="nowrap",subs="attributes+"]
-----
-$ oc login {link-oso-auth} --token=MYTOKEN
-----
+include::booster-deploy-get-cli-token.adoc[levelloffset=+3]
 
-. Create a new project in your {OpenShiftOnline}.
+. Create a new project in your {OpenShiftLocal}.
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
@@ -24,7 +21,7 @@ $ oc new-project {project-name}
 
 . Navigate to the root directory of your booster.
 
-. Deploy the Postgres database to your {OpenShiftOnline}.
+. Deploy the PostgreSQL database to your {OpenShiftLocal}.
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
@@ -36,21 +33,33 @@ $ oc new-app -e POSTGRESQL_USER=luke -ePOSTGRESQL_PASSWORD=secret -ePOSTGRESQL_D
 [source,bash,options="nowrap",subs="attributes+"]
 ----
 $ oc get pods -w
-my-database-1-7c7m0   1/1       Running   0         45s
+my-database-1-aaaaa   1/1       Running   0         45s
 my-database-1-deploy   0/1       Completed   0         53s
 ----
 +
-Your `my-database` pod should have a status of `Running` and should be indicated as ready once it is fully deployed and started.
+Your `my-database-1-aaaaa` pod should have a status of `Running` and should be indicated as ready once it is fully deployed and started.
 
-. Use maven to start the deployment to your {OpenShiftOnline}.
+ifndef::http-api-nodejs[]
+. Use maven to start the deployment to {OpenShiftLocal}.
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
 $ mvn clean fabric8:deploy -Popenshift
 ----
 +
-This command uses the Fabric8 Maven Plugin to launch the S2I process on your {OpenShiftOnline} and to start the pod.
+This command uses the Fabric8 Maven Plugin to launch the S2I process on your {OpenShiftLocal} and to start the pod.
+endif::http-api-nodejs[]
 
+ifdef::http-api-nodejs[]
+. Use `npm` to start the deployment to {OpenShiftLocal}.
++
+[source,bash,options="nowrap",subs="attributes+"]
+----
+$ npm install && npm run openshift
+----
++
+These commands install any missing package dependencies, then using the xref:about-nodeshift[Nodeshift] package, launch the S2I process on {OpenShiftLocal} to start the pod.
+endif::http-api-nodejs[]
 
 . Check the status of your booster and ensure your pod is running.
 +
@@ -62,7 +71,7 @@ NAME                             READY     STATUS      RESTARTS   AGE
 {app-name}-s2i-1-build   0/1       Completed   0          2m
 ----
 +
-Your `{app-name}` pod should have a status of `Running` and should be indicated as ready once it is fully deployed and started.
+Your `{app-name}-1-aaaaa` pod should have a status of `Running` and should be indicated as ready once it is fully deployed and started.
 
 . Once your booster is deployed and started, determine its route.
 +
@@ -71,9 +80,9 @@ Your `{app-name}` pod should have a status of `Running` and should be indicated 
 ----
 $ oc get routes
 NAME                 HOST/PORT                                     PATH      SERVICES             PORT      TERMINATION
-{app-name}   {app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com      {app-name}   8080
+{app-name}   {app-name}-{project-name}.{osl-route-hostname}      {app-name}   8080
 ----
 +
-A pod's route information gives you the base URL which you use to access it. In the example above, you would use `http://{app-name}-{project-name}.1ab5.starter-us-east-1.openshiftapps.com` as the base URL to access the application.
+A pod's route information gives you the base URL which you use to access it. In the example above, you would use `http://{app-name}-{project-name}.{osl-route-hostname}` as the base URL to access the application.
 
-include::booster-deploy-openshift-local.adoc[leveloffset=+1]
+include::booster-deploy-ocp.adoc[leveloffset=+1]

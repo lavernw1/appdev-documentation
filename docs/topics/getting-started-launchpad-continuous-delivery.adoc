@@ -1,10 +1,12 @@
-:icons: font
-:linkattrs:
+To launch using {OpenShiftOnline}, click the _Use {OpenShiftOnline}_ button. This will:
 
-To launch using continuous delivery, click the _Use OpenShift Online to build and deploy_ button. This will:
+* In your GitHub namespace, create a repository containing your new project's code.
+* Configure {OpenShiftOnline} to build and deploy your code on each push to your repository’s master branch.
 
-* Create, in your GitHub namespace, a repository containing your new project's code
-* Create a pipeline to continuously deliver the code on each push to your repository’s master branch
-* Execute the pipeline, which will build and deploy the codebase on OpenShift Online.  This may take a few minutes.
+[IMPORTANT]
+--
+Before proceeding, ensure you have granted *{launcher}* access to your GitHub and OpenShift accounts.
+Perform this one-time configuration procedure in your https://sso.openshift.io/auth/realms/rh-developers-launch/account/identity[{RHSSO} federated identity settings^]. If you make any changes, reload the page for the changes to take effect.
 
-IMPORTANT: Before proceeding, make sure you have granted *launch.openshift.io* access to GitHub and OpenShift; this one-time step can be done https://sso.openshift.io/auth/realms/osio-launch-prod/account/identity[here, window="_blank"].
+More details about the {RHSSO} federated identity settings are available in the link:https://appdev.openshift.io/docs/getting-started.html#launcher-sso-settings[{getting-started-guide-name}^]
+--

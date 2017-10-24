@@ -1,5 +1,3 @@
-include::secured-mission-intro-paragraph.adoc[]
-
 = Project Structure
 The project is split into two Apache Maven modules:
 
@@ -11,7 +9,7 @@ The `sso` module is a submodule link to the link:https://github.com/obsidian-toa
 
 = {RHSSO} Realm Model
 
-The `master` realm is used to secure this booster. It is defined using the `src/resources/master.json` JSON description. There are four pre-configured application client definitions that provide a model for command line clients and the three secured REST endpoints. There are also two pre-configured users in the {RHSSO} `master` realm that can be used to validate various authentication and authorization outcomes:  `admin` and `alice`.
+The `master` realm is used to secure this booster. It is defined using the `src/main/resources/master.json` JSON description. There are four pre-configured application client definitions that provide a model for command line clients and the three secured REST endpoints. There are also two pre-configured users in the {RHSSO} `master` realm that can be used to validate various authentication and authorization outcomes:  `admin` and `alice`.
 
 == {RHSSO} Users
 The realm model for the secured boosters includes two users:
@@ -29,7 +27,7 @@ The `alice` user has a password of `password` and is the canonical application. 
   "exp": 1489698336,
   "nbf": 0,
   "iat": 1489698276,
-  "iss": "https://secure-sso-sso.192.168.99.100.nip.io/auth/realms/master", <1>
+  "iss": "https://secure-sso-sso.{osl-route-hostname}/auth/realms/master", <1>
   "aud": "demoapp",
   "sub": "c0175ccb-0892-4b31-829f-dda873815fe8",
   "typ": "Bearer",
@@ -88,19 +86,19 @@ for each of the secured endpoints.
 The OAuth 2.0 specification allows you to define a role for application clients that access secured resources on behalf of resource owners. The `master` realm has four application clients defined:
 
 demoapp::
-This is a `confidential` type client with a client secret that is used to obtain an access token that contains grants for the `alice` user which enable `alice` to access the {WildFlySwarm}, {VertX} and {SpringBoot} based REST Booster deployments.
+This is a `confidential` type client with a client secret that is used to obtain an access token that contains grants for the `alice` user which enable `alice` to access the {WildFlySwarm}, {VertX} and {SpringBoot} based REST booster deployments.
 
 secured-swarm-endpoint::
-The `secured-swarm-endpoint` is a bearer-only type of client that requires a `swarm-admin` role for accessing the associated resources that represents the secured {WildFlySwarm} Booster.
+The `secured-swarm-endpoint` is a bearer-only type of client that requires a `swarm-admin` role for accessing the associated resources that represents the secured {WildFlySwarm} booster.
 
 secured-vertx-endpoint::
-The `secured-vertx-endpoint` is a bearer-only type of client that requires a `vertx-admin` role for accessing the associated resources that represents the secured {VertX} Booster.
+The `secured-vertx-endpoint` is a bearer-only type of client that requires a `vertx-admin` role for accessing the associated resources that represents the secured {VertX} booster.
 
 secured-springboot-endpoint::
-The `secured-springboot-endpoint` is a bearer-only type of client that requires a `springboot-admin` role for accessing the associated resources that represents the secured {SpringBoot} Booster.
+The `secured-springboot-endpoint` is a bearer-only type of client that requires a `springboot-admin` role for accessing the associated resources that represents the secured {SpringBoot} booster.
 
 == Security Constraints
 
-The Secured Booster establishes a security context that is managed by {RHSSO} using adaptor code that verifies a signed JSON web token, like the one shown for the `alice` user, using configuration information that allows the adaptor code to verify the token.
+The Secured booster establishes a security context that is managed by {RHSSO} using adaptor code that verifies a signed JSON web token, like the one shown for the `alice` user, using configuration information that allows the adaptor code to verify the token.
 
 The configuration information includes things like the realm name, the realm public key, the {RHSSO} server auth URL, and resource target.
