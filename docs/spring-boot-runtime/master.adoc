@@ -25,7 +25,7 @@ This sections contains information about debugging your {SpringBoot}&#x2013;base
 
 To remotely debug an application, you must first configure it to start in a debugging mode, and then attach a debugger to it.
 
-include::topics/proc_starting-your-spring-boot-application-locally-in-debugging-mode.adoc[leveloffset=+3]
+include::topics/proc_starting-your-spring-boot-application-locally-in-debugging-mode-f8-m-p.adoc[leveloffset=+3]
 
 include::topics/proc_starting-an-uberjar-in-debugging-mode.adoc[leveloffset=+3]
 

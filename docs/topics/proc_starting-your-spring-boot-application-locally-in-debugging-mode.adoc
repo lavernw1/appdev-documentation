@@ -1,8 +1,11 @@
 [#starting-your-spring-boot-application-locally-in-debugging-mode]
 = Starting Your {SpringBoot} Application Locally in Debugging Mode
 
+
 One of the ways of debugging a Maven-based project is manually launching the application while specifying a debugging port, and subsequently connecting a remote debugger to that port.
-This method is applicable at least when launching the application manually using the `mvn spring-boot:run` goal.
+This method is applicable when launching the application manually using the `mvn spring-boot:run` goal.
+
+If you chose to use the Maven spring-boot run goal for debugging your application, use the following procedure:
 
 .Prerequisites
 
@@ -17,9 +20,9 @@ This method is applicable at least when launching the application manually using
 [source,bash,options="nowrap"]
 ----
 $ mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=$PORT_NUMBER"
+
 ----
 
 Here, `$PORT_NUMBER` is an unused port number of your choice.
 Remember this number for the remote debugger configuration.
 --
-

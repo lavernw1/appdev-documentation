@@ -1,0 +1,27 @@
+[#starting-your-spring-boot-application-locally-in-debugging-mode-f8-m-p]
+= Starting Your {SpringBoot} Application Locally in Debugging Mode with Fabric8
+
+An option for debugging a Maven-based project is manually launching the application using the link:https://maven.fabric8.io/#fabric8:debug[Fabric8 Maven Plugin].
+
+This method is applicable when launching your application manually using the `mvn fabric8:debug goal`. This goal enables debugging for your app and port forwarding from your localhost to the latest running pod of your app.
+
+
+.Prerequisites
+
+* A Maven-based application
+
+.Procedure
+
+. In a console, navigate to the directory with your application.
+. Launch your application with the following syntax to enable debugging and use the default debug port `5005`:
++
+--
+[source,bash,options="nowrap"]
+----
+$ mvn fabric8:debug
+
+----
+
+Here you can also specify the  `-Dfabric8.debug.port=<port number>` parameter to indicate an unused port number of your choice.
+Remember this number for the remote debugger configuration.
+--
